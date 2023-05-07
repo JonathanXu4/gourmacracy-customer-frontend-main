@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rate Your Order</title>
+    <meta name="author" content="Gourmacracy">
+    <link rel="shortcut icon" type="image/x-icon" href="images/gfavicon.ico"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script type="text/javascript" src="js/backend.js"></script>
+</head>
+<body>
+  <div class="row d-flex justify-content-center gourmacracy-past-orders-output-container" id="whole-container">
+    <div style="display: block;" class="col-md-8" id="rateOrder">
+        <h2 style="text-align: center;">Rate Your Order</h2>
+        <div class="container">
+          <div class="cart-items"></div>
+        <div style="display: none;" id="futureItems">
+          <br/><br/><h2 style="text-align: center;">Vote On Future Dishes!</h2>
+          <p style="text-align: center;">Cast your vote on potential dishes, and the restaurant owner might add them! What do you think about these future dishes?</p>
+          <div class="future-items"></div>
+        </div>
+        </div>
+        <div class="jumbotron" id="loadingSign"><h4>Loading...</h4></div>
+        <br/><br/><button class="gourmacracy-button rate-order-button" type="button" onclick="submitReview()" disabled id="submitButton">Submit Review</button>
+    </div>
+    <div style="display: none; text-align: center;" class="col-md-8" id="ratingCompleted">
+        <h2 style="margin: 30px;">Thank you!</h2>
+        <div style="margin-bottom: 75px;" class="jumbotron"><h4>Your reviews have been submitted!</h4></div>
+        <button class="gourmacracy-button rate-order-button" type="button" onclick="returnHome()">Return to Menu</button>
+    </div>
+</div>
+<!-- nav-bar -->
+<div class="gourmacracy-nav-bar">
+    <ul>
+        <li style="float: left">
+            <a class="hover" onclick="goToPage()">
+                <img src="images/gourmacracy-logo.svg" alt="logo" width="150">
+            </a>
+        </li>
+        <li style="margin-top: 15px"><a class="hover" onclick="goToLogout()"><i class="bi bi-box-arrow-right"></i>&emsp;Log Out</a></li>
+        <li style="margin-top: 15px"><a class="hover" onclick="goToPage()"><i class="bi bi-menu-down"></i>&emsp;Menu</a></li>
+    </ul>
+</div>
+<!-- nav-bar -->
+<script>
+
+    window.addEventListener('load', (event) =>{
+      let url = backendLink + "menuItems/"
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function (){
+          if (this.readyState == 4 && this.status == 200){
+              updateCartFromSession(JSON.parse(this.responseText));
+          }
+      };
+      xhttp.open('GET', url, true);
+      xhttp.send();
+
+      let width = window.innerWidth;
+      if(width > 446) {
+        document.getElementById("whole-container").style = "margin-top: 100px;";
+      } else if(width > 264) {
+        document.getElementById("whole-container").style = "margin-top: 160px;";
+      } else {
+        document.getElementById("whole-container").style = "margin-top: 230px;";
+      }
+    });
+
+    window.addEventListener('resize', function() {
+      let width = window.innerWidth;
+      if(width > 446) {
+        document.getElementById("whole-container").style = "margin-top: 100px;";
+      } else if(width > 264) {
+        document.getElementById("whole-container").style = "margin-top: 160px;";
+      } else {
+        document.getElementById("whole-container").style = "margin-top: 230px;";
+      }
+    });
+
+    function goToPage() {
+      if(confirm("Are you sure? This will clear your cart and you won't be able to rate your order!")) {
+        localStorage.setItem('cart', [""]);
+        let parameter = new URLSearchParams();
+        location.href = "menu.html";
+      }
+    }
+
+    function returnHome() {
+      localStorage.setItem('cart', [""]);
+      let parameter = new URLSearchParams();
+      location.href = "menu.html";
+    }
+
+    function goToLogout() {
+      if(confirm("Are you sure? This will clear your cart and you won't be able to rate your order!")) {
+        localStorage.setItem('cart', [""]);
+        let parameter = new URLSearchParams();
+        location.href = "logout.html";
+      }
+    }
+
+    function ratingChange(item) {
+        document.getElementById('submitButton').disabled = false;
+        let starId = (item.id).split(':');
+        let numStars = parseInt(starId[0]);
+        let ratingID = starId[1];
+        if(numStars > 0 && numStars < 6) {
+          document.getElementById("stars"+ratingID).value = numStars;
+        }
+
+        for(var i = 1; i < 6; i++) {
+          var tempId = document.getElementById(i+":"+ratingID);
+          if(tempId != null) {
+            if(i <= numStars) {
+              if(tempId.className == "bi bi-star-fill star-unchecked") {
+                tempId.className = "bi bi-star-fill star-checked";
+              }
+            } else {
+              if(tempId.className == "bi bi-star-fill star-checked") {
+                tempId.className = "bi bi-star-fill star-unchecked";
+              }
+            }
+          }
+        }
+    }
+
+    function submitReview() {
+      // rebuild data from cart: no duplicate IDs
+      var cartItemContainer = document.getElementsByClassName('cart-items')[0];
+      var cartRows = cartItemContainer.getElementsByClassName('menu-item');
+
+      // rebuild data from future items as well: no duplicate IDs
+      var futureItemContainer = document.getElementsByClassName('future-items')[0];
+      var futureRows = futureItemContainer.getElementsByClassName('menu-item');
+
+      // Check for then submit any cart item reviews
+      for (var l = 0; l < cartRows.length; l++) {
+          var cartRow = cartRows[l];
+          var id = cartRow.getElementsByClassName('hidden-id')[0].innerText;
+          var rating = cartRow.getElementsByClassName('hidden-rating')[0].value;
+          var comment = cartRow.getElementsByClassName('hidden-comment')[0].value;
+
+          if(rating > 0 && rating < 6) {
+            // submit to rating with ID
+            sendRating(id, rating);
+          }
+
+          if(comment.length > 1) {
+            // submit to comment with ID
+            sendComment(id, comment);
+          }
+      }
+
+      // Check for them submit any future item reviews
+      for (var k = 0; k < futureRows.length; k++) {
+          var futureRow = futureRows[k];
+          var id = futureRow.getElementsByClassName('hidden-id')[0].innerText;
+          var rating = futureRow.getElementsByClassName('hidden-rating')[0].value;
+          var comment = futureRow.getElementsByClassName('hidden-comment')[0].value;
+
+          if(rating > 0 && rating < 6) {
+            // submit to rating with ID
+            sendRating(id, rating);
+          }
+
+          if(comment.length > 1) {
+            // submit to comment with ID
+            sendComment(id, comment);
+          }
+      }
+      // If any comment or review is submitted successfully:
+      // Page will transition to the "review submitted" view.
+
+    }
+
+    function sendRating(menuItemID, points) {
+        var numRatingsIncrease = 1;
+
+        // If user tries to send bad rating
+        if(points < 0 || points > 5) {
+          points = 5;
+        }
+        let url = backendLink + "menuItems/rating/";
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("rateOrder").style.display = 'none';
+                document.getElementById("ratingCompleted").style.display = 'block';
+            }
+        }
+        let userData = "points="  + points  + "&"+
+                       "numRatings=" + numRatingsIncrease + "&";
+
+
+        xhttp.open('PATCH', url + menuItemID, true);
+        // Just needed to place this line AFTER opening the object
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.send(userData);
+    }
+
+    function sendComment(menuItemID, comment) {
+
+        let url = backendLink + "menuItems/comment/";
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("rateOrder").style.display = 'none';
+                document.getElementById("ratingCompleted").style.display = 'block';
+            }
+        }
+        let userData = "comments="  + comment  + "&";
+
+
+        xhttp.open('PATCH', url + menuItemID, true);
+        // Just needed to place this line AFTER opening the object
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.send(userData);
+    }
+
+    function addItemToCart(data, newItem) {
+      let strDataId = data["_id"];
+        var cartRow = document.createElement('div')
+        cartRow.classList.add('menu-item')
+        cartRow.style = "margin: auto; margin-top: 25px;"
+
+        var cartItems = document.getElementsByClassName('cart-items')[0]
+        let visibleMenu = '';
+            visibleMenu +=
+            '<span hidden class="hidden-id">'+data["_id"]+'</span>\n' +
+            '   <div class="cart-quantity cart-column">\n'+
+            '      <p><b>'+data["itemName"]+
+            '      <span style="float: right;"> $'+data["price"].toFixed(2)+'&emsp;&emsp;' +
+            '      </span>\n' +
+            '      <span style="margin-left: 10px;" class="badge bg-secondary rounded-pill cart-quantity-input">1</span></b></p>\n' +
+            '   </div>\n'+
+            '<p>'+data["description"]+'</p>\n' +
+            '<br/>\n'+
+            '<input hidden class="hidden-rating" type="text" value="0" id="stars'+data["_id"]+'"></input>\n' +
+            '<h5 style="text-align: center;">Rate:'+
+            '  <i class="bi bi-star-fill star-unchecked" id="1:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            ' <i class="bi bi-star-fill star-unchecked" id="2:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            ' <i class="bi bi-star-fill star-unchecked" id="3:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            ' <i class="bi bi-star-fill star-unchecked" id="4:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            ' <i class="bi bi-star-fill star-unchecked" id="5:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            '</h6>\n'+
+            '<h5 style="text-align: center;">Comment:</h5>\n'+
+            '<input type="text" id="comment'+data["_id"]+'" class="form-control hidden-comment"><br/>\n';
+
+        cartRow.innerHTML = visibleMenu;
+        cartItems.append(cartRow);
+    }
+
+    function addItemToOptionalRating(data, newItem) {
+      let strDataId = data["_id"];
+        var cartRow = document.createElement('div')
+        cartRow.classList.add('menu-item')
+        cartRow.style = "margin: auto; margin-top: 25px;"
+
+        var cartItems = document.getElementsByClassName('future-items')[0]
+        let visibleMenu = '';
+            visibleMenu +=
+            '<span hidden class="hidden-id">'+data["_id"]+'</span>\n' +
+            '   <div class="cart-quantity cart-column">\n'+
+            '      <p><b>'+data["itemName"]+
+            '      <span style="float: right;"> $'+data["price"].toFixed(2)+'&emsp;&emsp;' +
+            '      </span></b></p>\n' +
+            '   </div>\n'+
+            '<p>'+data["description"]+'</p>\n' +
+            '<br/>\n'+
+            '<input hidden class="hidden-rating" type="text" value="0" id="stars'+data["_id"]+'"></input>\n' +
+            '<h5 style="text-align: center;">Rate:'+
+            '  <i class="bi bi-star-fill star-unchecked" id="1:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            ' <i class="bi bi-star-fill star-unchecked" id="2:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            ' <i class="bi bi-star-fill star-unchecked" id="3:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            ' <i class="bi bi-star-fill star-unchecked" id="4:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            ' <i class="bi bi-star-fill star-unchecked" id="5:'+data["_id"]+'" onclick="ratingChange(this)"></i>'+
+            '</h6>\n'+
+            '<h5 style="text-align: center;">Comment:</h5>\n'+
+            '<input type="text" id="comment'+data["_id"]+'" class="form-control hidden-comment"><br/>\n';
+
+        cartRow.innerHTML = visibleMenu;
+        cartItems.append(cartRow);
+    }
+
+    function updateCartFromSession(data) {
+      // Update the cart from session data (localStorage)
+      // Grab localStorage
+      var alreadyAdded = [];
+      if(localStorage.getItem('cart') != null) {
+        var cart = localStorage.getItem('cart').split(',');
+
+        // For length of localStorage, check each menu item against it.
+        for(let i = 0; i < cart.length; i++) {
+          for(let j = 0; j < data.length; j++) {
+
+            // If cart matches menuItem ID
+            if(cart[i] == data[j]["_id"]) {
+
+              let added = false;
+
+              // Check if menu item has been added before, mark if it has
+              for(let k = 0; k < alreadyAdded.length; k++) {
+                if(cart[i] == alreadyAdded[k]) {
+                  added = true;
+                  // Break out of for loop early if found
+                  break;
+                }
+              }
+
+              // If it hasn't been added...
+              if(!added) {
+                // Add item to cart and alreadyAdded list.
+                addItemToCart(data[j],false);
+                alreadyAdded.push(cart[i]);
+
+              } else {
+
+                // If it has not been added:
+                // find locations, check IDs and increase quantity.
+                var cartItemContainer = document.getElementsByClassName('cart-items')[0]
+                var cartRows = cartItemContainer.getElementsByClassName('menu-item')
+                for (var l = 0; l < cartRows.length; l++) {
+                    var cartRow = cartRows[l]
+                    var id = cartRow.getElementsByClassName('hidden-id')[0].innerText
+                    var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0].innerText
+                    if(id == cart[i]) {
+                      cartRow.getElementsByClassName('cart-quantity-input')[0].innerText =
+                      (parseInt(cartRow.getElementsByClassName('cart-quantity-input')[0].innerText) + 1);
+                      // if the item has been found, break out early.
+                      break;
+                    }
+                }
+
+              }
+              // Get out of for loop early to check next localStorage item if menu item found.
+              break;
+            }
+          }
+        }
+        for(let j = 0; j < data.length; j++) {
+
+          if(data[j]["category"] == "Optional") {
+            document.getElementById("futureItems").style.display = 'block';
+            addItemToOptionalRating(data[j],false);
+          }
+        }
+      }
+      // When done loading, get rid of loading sign.
+      document.getElementById("loadingSign").innerHTML = '';
+      if(alreadyAdded.length == 0) {
+        var cartItemContainer = document.getElementsByClassName('cart-items')[0];
+        cartItemContainer.innerHTML =
+        '<p style="text-align: center;">There are no items in your cart to rate. '+
+        'Please add items to your cart and try again.</p>';
+      } else {
+        document.getElementById('submitButton').disabled = false;
+      }
+    }
+
+    function removeFocus(item) {
+      // If the item is not a textbox, remove focus.
+      if(!item.type && !item.type == "text") {
+        document.activeElement.blur();
+      }
+    }
+
+</script>
+</body>
+</html>

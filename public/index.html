@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gourmacracy</title>
+    <meta name="author" content="Gourmacracy">
+    <link rel="shortcut icon" type="image/x-icon" href="images/gfavicon.ico"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- nav-bar -->
+<div class="gourmacracy-nav-bar-index">
+    <ul>
+        <li>
+            <a href="index.html" id="gourmacracy-logo">
+                <img src="images/gourmacracy-logo-index.svg" alt="logo" width="150">
+            </a>
+        </li>
+        <li style="display: block; margin-top: 15px; border-radius: 50px; background: white" id="logged-out1"><a href="registration.html" class="sign-up-index"><i class="bi bi-person-circle"></i>&emsp;Sign Up</a></li>
+        <li style="display: block; margin-top: 15px;" id="logged-out2"><a href="signin.html" class="sign-in-index"><i class="bi bi-box-arrow-in-right"></i>&emsp;Sign In</a></li>
+        <li style="display: none; margin-top: 15px; border-radius: 50px; background: white" id="logged-in1"><a href="logout.html" class="sign-up-index"><i class="bi bi-box-arrow-right"></i>&emsp;Log Out</a></li>
+        <li style="display: none; margin-top: 15px;" id="logged-in2"><a href="restaurants.html" class="sign-in-index"><i class="bi bi-building"></i>&emsp;Restaurants</a></li>
+    </ul>
+    <div class="d-sm-flex row justify-content-sm-center">
+      <div class="index-nav-bar-content-center col-sm-8" id="header-text">
+          <span id="experience-text" style="font-family: 'Josefin Sans', sans-serif; font-size: 75px; font-weight: bold;">Revolution&shy;izing your restaurant experience</span><br>
+          <span id="logged-out3" style="display: block; font-size: 20px; color: white"><a href="signin.html" style="color: white; text-decoration: underline">Sign In</a> for your past orders</span>
+          <span id="logged-in3" style="display: none; font-size: 20px; color: white">Look at <a href="restaurants.html" style="color: white; text-decoration: underline">Restaurants</a> to order!</span>
+      </div>
+
+    </div>
+
+</div>
+<!-- nav-bar -->
+<div class="gourmacracy-main-container">
+    <!-- Carousel wrapper 1 -->
+    <div class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
+        <!-- Inner -->
+        <div class="carousel-inner py-4">
+            <!-- Single item -->
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="row">
+                        <h3 style="margin-bottom: 20px;">Enjoying the Culture and Cuisine Throughout the World </h3>
+                        <div class="col-lg-4">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/vietnamese-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="Vietnamese Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">Vietnamese Food</h5>
+                                    <p class="card-text">
+                                        Vietnamese cuisine is a delicate combination of many spices and fresh ingredients.
+                                        It is diverse, rich, tasty, exotic and different from region to region.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 d-none d-lg-block">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/japanese-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="Japanese Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">Japanese Food</h5>
+                                    <p class="card-text">
+                                        Japanese cuisine is world-renowned for it's highly skilled preparation methods
+                                        and unique and refined presentation such as Sushi and Sashimi.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 d-none d-lg-block">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/mexican-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="Mexican Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">Mexican Food</h5>
+                                    <p class="card-text">
+                                        Mexican cuisine is known for its intense and varied flavors, colorful decoration,
+                                        and the variety of spices that it has such as Tacos and Quesadilla.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Inner -->
+    </div>
+    <!-- Carousel wrapper 1 -->
+    <!-- Carousel wrapper 2-->
+    <div class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
+        <!-- Inner -->
+        <div class="carousel-inner py-4">
+            <!-- Single item -->
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/american-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="American Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">American Food</h5>
+                                    <p class="card-text">
+                                        Typical American foods include a large variety of beef, pork and chicken dishes,
+                                        baked beans, barbecue, and clam chowder.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 d-none d-lg-block">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/english-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="British Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">British Food</h5>
+                                    <p class="card-text">
+                                        British food has traditionally been based on beef, lamb, pork, chicken and fish
+                                        and generally served with potatoes and one other vegetable.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 d-none d-lg-block">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/ethiopian-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="Ethiopian Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">Ethiopian Food</h5>
+                                    <p class="card-text">
+                                        It marries together earthy, spicy, tart, sour, and pungent flavors. Berbere, a
+                                        base seasoning, used in a wide variety of savory and spiced Ethiopian dishes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Inner -->
+    </div>
+    <!-- Carousel wrapper 2-->
+    <!-- Carousel wrapper 3-->
+    <div class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
+        <!-- Inner -->
+        <div class="carousel-inner py-4">
+            <!-- Single item -->
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/indian-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="Indian Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">Indian Food</h5>
+                                    <p class="card-text">
+                                        Spicy, rich, flavourful and diverse are terms that are frequently used to describe
+                                        Indian, which consists of a variety of regional cuisines native to the Indian subcontinent.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 d-none d-lg-block">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/italian-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="Italian Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">Italian Food</h5>
+                                    <p class="card-text">
+                                        Italian food is a surprisingly diverse cuisine. Each of the twenty Italian regions
+                                        has a distinctive set of flavors, recipes, products, and ingredients.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 d-none d-lg-block">
+                            <div class="card" style="border-radius: 15px; box-shadow: 0 5px 5px #E5E5E5;">
+                                <img src="images/index-img/thai-food.jpg" class="card-img-top" style="border-top-left-radius: 15px; border-top-right-radius: 15px" alt="Thai Food"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">Thai Food</h5>
+                                    <p class="card-text">
+                                        Thai dishes are sweet, salty, spicy or sour. There are many dishes with thick
+                                        noodles, vegetables, lettuce, and chicken, lamb, shrimp, or beef.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Inner -->
+    </div>
+    <!-- Carousel wrapper 23-->
+
+</div>
+<script>
+window.addEventListener('load', (event) =>{
+  if(localStorage.getItem('id') != null) {
+    // If id has data:
+    if(localStorage.getItem('id').length > 5) {
+      document.getElementById("logged-in1").style.display = 'block';
+      document.getElementById("logged-in2").style.display = 'block';
+      document.getElementById("logged-in3").style.display = 'block';
+      document.getElementById("logged-out1").style.display = 'none';
+      document.getElementById("logged-out2").style.display = 'none';
+      document.getElementById("logged-out3").style.display = 'none';
+    } else {
+      document.getElementById("logged-in1").style.display = 'none';
+      document.getElementById("logged-in2").style.display = 'none';
+      document.getElementById("logged-in3").style.display = 'none';
+      document.getElementById("logged-out1").style.display = 'block';
+      document.getElementById("logged-out2").style.display = 'block';
+      document.getElementById("logged-out3").style.display = 'block';
+    }
+  }
+  let width = window.innerWidth;
+  if(width > 845) {
+    document.getElementById("logged-in2").style.float = "right";
+    document.getElementById("logged-out2").style.float = "right";
+    document.getElementById("gourmacracy-logo").style = "";
+    document.getElementById("header-text").style = "";
+    document.getElementById("experience-text").style = "font-family: 'Josefin Sans', sans-serif; font-size: 75px; font-weight: bold;";
+  } else {
+    document.getElementById("logged-in2").style.float = "left";
+    document.getElementById("logged-out2").style.float = "left";
+    document.getElementById("gourmacracy-logo").style = "margin-top: 60px;";
+    document.getElementById("header-text").style = "margin-top: 120px;";
+    document.getElementById("experience-text").style = "margin-top: 120px; font-family: 'Josefin Sans', sans-serif; font-size: 50px; font-weight: bold;";
+  }
+});
+
+window.addEventListener('resize', function() {
+  let width = window.innerWidth;
+  if(width > 845) {
+    document.getElementById("logged-in2").style.float = "right";
+    document.getElementById("logged-out2").style.float = "right";
+    document.getElementById("gourmacracy-logo").style = "";
+    document.getElementById("header-text").style = "";
+    document.getElementById("experience-text").style = "font-family: 'Josefin Sans', sans-serif; font-size: 75px; font-weight: bold;";
+  } else {
+    document.getElementById("logged-in2").style.float = "left";
+    document.getElementById("logged-out2").style.float = "left";
+    document.getElementById("gourmacracy-logo").style = "margin-top: 60px;";
+    document.getElementById("header-text").style = "margin-top: 120px;";
+    document.getElementById("experience-text").style = "margin-top: 120px; font-family: 'Josefin Sans', sans-serif; font-size: 50px; font-weight: bold;";
+  }
+});
+
+</script>
+</body>
+</html>

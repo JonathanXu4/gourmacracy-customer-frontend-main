@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update Menu Item</title>
+    <meta name="author" content="Gourmacracy">
+    <link rel="shortcut icon" type="image/x-icon" href="images/gfavicon.ico"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/admin-style.css">
+    <script type="text/javascript" src="js/backend.js"></script>
+</head>
+<body>
+<!-- nav-bar -->
+<div class="gourmacracy-nav-bar">
+    <ul>
+        <li style="float: left">
+            <a href="adminIndex.html">
+                <img src="images/gourmacracy-admin-logo.svg" alt="logo" width="150">
+            </a>
+        </li>
+        <li style="margin-top: 15px"><a href="adminLogout.html"><i class="bi bi-box-arrow-right"></i>&emsp;Logout</a></a></li>
+<!--        <li style="margin-top: 15px"><a href="show-user.html">Find A User</a></li>-->
+<!--        <li style="margin-top: 15px"><a href="users.html">Show All Users</a></li>-->
+        <li style="margin-top: 15px"><a href="adminAddMenuItem.html">Add Menu Item</a></li>
+        <li style="margin-top: 15px"><a href="adminShowMenu.html">Admin Menu</a></li>
+    </ul>
+</div>
+<!-- nav-bar -->
+<div class="gourmacracy-main-container">
+  <div class="container-form">
+    <div class="container-center">
+        <p id="blocked" hidden="true" style="text-align: center;">You are not allowed to access this data.</p>
+        <form onsubmit="menuItemModify(); return false" id="placement" hidden="true">
+            <h4 style="text-align: center">Please Insert the Menu Item Information</h4>
+            <div class="mb-3 form-group">
+                <label for="itemName">ITEM NAME</label>
+                <input type="text" name="itemName" id="itemName" class="form-control"
+                       placeholder="Item Name">
+            </div>
+            <div class="mb-3 form-group">
+                <label for="category">CATEGORY</label>
+                <select type="text" name="category" id="category" class="form-control"
+                       placeholder="Category">
+                       <!--<select>-->
+                        <optgroup label="Category">
+                            <option>Please Select Category</option>
+                            <option>Appetizer</option>
+                            <option>Salad</option>
+                            <option>Entree</option>
+                            <option>Desert</option>
+                            <option>Optional</option>
+                        </optgroup>
+
+                    </select>
+            </div>
+            <div class="mb-3 form-group">
+                <label for="description">DESCRIPTION</label>
+                <input type="text" name="description" id="description" class="form-control"
+                       placeholder="Description">
+            </div>
+            <div class="mb-3 form-group">
+                <label for="price">PRICE</label>
+                <input type="number" name="price" min="0" step="0.01" id="price" class="form-control"
+                       placeholder="Price">
+            </div>
+            <div class="mb-3 form-group">
+                <label for="points">POINTS</label>
+                <input type="number" name="points" id="points" class="form-control"
+                       placeholder="Points">
+            </div>
+            <div class="mb-3 form-group">
+                <label for="numRatings">NUMBER OF RATINGS</label>
+                <input type="number" name="numRatings" id="numRatings" class="form-control"
+                       placeholder="numRatings">
+            </div>
+     <input type="submit" class="gourmacracy-button" id="btnModifyMenuItem" value="Update Menu Item"><br>
+        </form>
+    </div>
+    <br><div class="jumbotron" style="background-color: #FFF7D6" id="message">
+  </div>
+  </div>
+</div>
+<script>
+    var parameter = new URLSearchParams(window.location.search);
+    var menuItemID = parameter.get("menuItemID");
+
+    function menuItemModify() {
+      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+        let url = backendLink + "menuItems/";
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200){
+                document.getElementById("message").innerHTML =
+                    "Menu Item Updated!";
+            }
+        }
+        let menuItemData = "itemName=" + document.getElementById("itemName").value + "&" +
+            "category=" + document.getElementById("category").value  + "&" +
+            "description="  + document.getElementById("description").value  + "&" +
+            "points=" + document.getElementById("points").value  + "&" +
+            "numRatings=" + document.getElementById("numRatings").value  + "&";
+
+        xhttp.open('PATCH', url + menuItemID, true);
+        // Just needed to place this line AFTER opening the object
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.send(menuItemData);
+      }
+    }
+
+    function load() {
+      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+        let url = backendLink + "menuItems/";
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                menuItemData(JSON.parse(this.responseText));
+                document.getElementById("placement").hidden = false;
+            }
+        };
+        xhttp.open('GET', url + menuItemID, true);
+        xhttp.send();
+      } else {
+        document.getElementById("blocked").hidden = false;
+      }
+    }
+
+    function menuItemData(menuItem) {
+      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+        document.getElementById("itemName").value = menuItem["itemName"];
+        document.getElementById("category").value = menuItem["category"];
+        document.getElementById("description").value = menuItem["description"];
+        document.getElementById("price").value = menuItem["price"];
+        document.getElementById("points").value = menuItem["points"];
+        document.getElementById("numRatings").value = menuItem["numRatings"];
+      }
+    }
+
+    window.onload = load();
+</script>
+
+</body>
+</html>
