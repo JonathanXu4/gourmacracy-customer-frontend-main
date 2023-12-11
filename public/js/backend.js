@@ -1,1 +1,1 @@
-var backendLink = "https://gourmacracy.onrender.com/api/";
+var backendLink = "https://gourmacracy.onrender.com/";
