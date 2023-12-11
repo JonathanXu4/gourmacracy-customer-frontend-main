@@ -75,7 +75,7 @@
         return table;
     }
     window.addEventListener('load', (event) =>{
-      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+      if(localStorage.getItem('id')  == "65778900aa864e003654a729") {
         document.getElementById("placement").hidden = false;
         let url = backendLink + "users/"
         let xhttp = new XMLHttpRequest();
@@ -93,7 +93,7 @@
     });
 
     function deleteUser(id) {
-      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+      if(localStorage.getItem('id')  == "65778900aa864e003654a729") {
         let parameter = new URLSearchParams();
         parameter.append("userID", id);
         location.href = "delete-user.html?" + parameter.toString();
@@ -101,7 +101,7 @@
     }
 
     function updateUser(id) {
-      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+      if(localStorage.getItem('id')  == "65778900aa864e003654a729") {
         let parameter = new URLSearchParams();
         parameter.append("userID", id);
         location.href = "update-user.html?" + parameter.toString();

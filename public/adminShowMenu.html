@@ -80,7 +80,7 @@
         return table;
     }
     window.addEventListener('load', (event) =>{
-      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+      if(localStorage.getItem('id')  == "65778900aa864e003654a729") {
         document.getElementById("output").hidden = false;
 
         let url = backendLink + "menuItems/"
@@ -100,7 +100,7 @@
     });
 
     function deleteMenuItem(id) {
-      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+      if(localStorage.getItem('id')  == "65778900aa864e003654a729") {
         let parameter = new URLSearchParams();
         parameter.append("menuItemID", id);
         location.href = "adminDeleteMenuItem.html?" + parameter.toString();
@@ -108,7 +108,7 @@
     }
 
     function updateMenuItem(id) {
-      if(localStorage.getItem('id')  == "6281d69c6009f90004b69931") {
+      if(localStorage.getItem('id')  == "65778900aa864e003654a729") {
         let parameter = new URLSearchParams();
         parameter.append("menuItemID", id);
         location.href = "adminUpdateMenuItem.html?" + parameter.toString();
